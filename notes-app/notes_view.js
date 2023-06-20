@@ -9,11 +9,16 @@ class NotesView {
   }
 
   displayNotes() {
-    const newElement = document.createElement("div");
-    newElement.id = "note";
-    newElement.textContent = document.querySelector("#note_input").value;
-    document.body.appendChild(newElement);
+    const notesContainer = document.querySelector("#notes_container");
+    notesContainer.innerHTML = ""; // Clear previous notes
+
     this.model.addNote(document.querySelector("#note_input").value);
+    this.model.getNotes().forEach((element) => {
+      const newElement = document.createElement("div");
+      newElement.className = "note";
+      newElement.textContent = element;
+      notesContainer.appendChild(newElement);
+    });
   }
 }
 
