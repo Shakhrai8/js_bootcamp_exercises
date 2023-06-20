@@ -3,6 +3,10 @@ class NotesModel {
     this.array = [];
   }
 
+  setNotes(notes) {
+    this.array = notes;
+  }
+
   addNote(string) {
     return this.array.push(string);
   }
