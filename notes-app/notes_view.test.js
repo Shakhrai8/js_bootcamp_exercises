@@ -6,16 +6,22 @@ const NotesView = require("./notes_view");
 const fs = require("fs");
 
 describe("NotesView", () => {
-  it("creates 3 new div elements", () => {
+  it("creates 1 new div element by clicking the button", () => {
     document.body.innerHTML = fs.readFileSync("./index.html");
 
     const mockNotesModelClass = {
-      getNotes: () => ["Test_1", "Test_2", "Test_3"],
+      addNote: (string) => [].push(string),
     };
 
     const testClass = new NotesView(mockNotesModelClass);
-    testClass.displayNotes();
+    const buttonEl = document.querySelector("#show-note-button");
+    const inputEl = document.querySelector("#note_input");
 
-    expect(document.querySelectorAll("div").length).toBe(4);
+    inputEl.value = "First note";
+
+    buttonEl.click();
+
+    expect(document.querySelector("#note")).not.toBeNull();
+    expect(document.querySelector("#note").innerHTML).toEqual("First note");
   });
 });
