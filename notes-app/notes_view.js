@@ -4,6 +4,7 @@ class NotesView {
     this.client = client;
     this.buttonEl = document.querySelector("#show-note-button");
     this.inputEl = document.querySelector("#note_input");
+    this.buttonEl2 = document.querySelector("#reset-note-button");
 
     this.buttonEl.addEventListener("click", () => {
       this.client
@@ -11,6 +12,17 @@ class NotesView {
         .then(() => {
           this.displayNotesFromApi();
           this.inputEl.value = "";
+        })
+        .catch((error) => {
+          this.displayError(error);
+        });
+    });
+
+    this.buttonEl2.addEventListener("click", () => {
+      this.client
+        .reset()
+        .then(() => {
+          this.displayNotesFromApi();
         })
         .catch((error) => {
           this.displayError(error);

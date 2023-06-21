@@ -70,4 +70,35 @@ describe("NotesView", () => {
     // Expect the displayNotes method to be called
     expect(document.querySelector(".note").innerHTML).toEqual("Note 1");
   });
+
+  it("reset method should make a DELETE request to the reset endpoint", () => {
+    // Arrange
+    const client = new noteClient();
+
+    // Mock the fetch function
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: true,
+    });
+
+    // Act
+    return client.reset().then(() => {
+      // Assert
+      expect(fetch).toHaveBeenCalledWith("http://localhost:3000/notes", {
+        method: "DELETE",
+      });
+    });
+  });
+
+  it("reset method should throw an error if the request fails", () => {
+    // Arrange
+    const client = new noteClient();
+
+    // Mock the fetch function to simulate a failed request
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: false,
+    });
+
+    // Act and Assert
+    return expect(client.reset()).rejects.toThrow("Failed to reset notes");
+  });
 });
