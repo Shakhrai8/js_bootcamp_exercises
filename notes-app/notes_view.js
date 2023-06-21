@@ -13,7 +13,7 @@ class NotesView {
           this.inputEl.value = "";
         })
         .catch((error) => {
-          console.error("Error creating note:", error);
+          this.displayError(error);
         });
     });
   }
@@ -36,7 +36,15 @@ class NotesView {
       this.model.setNotes(data);
       this.displayNotes();
     };
-    this.client.loadNotes(callback);
+    this.client.loadNotes(callback, this.displayError);
+  }
+
+  displayError(error) {
+    const notesContainer = document.querySelector("#notes_container");
+    const errorDiv = document.createElement("div");
+    errorDiv.className = "error-message";
+    errorDiv.textContent = `Oops, something went wrong! Error: ${error}`;
+    notesContainer.appendChild(errorDiv);
   }
 }
 
