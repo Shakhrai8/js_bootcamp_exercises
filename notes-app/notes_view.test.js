@@ -71,6 +71,33 @@ describe("NotesView", () => {
     expect(document.querySelector(".note").innerHTML).toEqual("Note 1");
   });
 
+  test("displayError should show error message in the DOM", () => {
+    document.body.innerHTML = fs.readFileSync("./index.html");
+    // Create a mock error object
+    const error = "Sample error message";
+
+    const mockClient = {
+      loadNotes: jest.fn(),
+      createNote: jest.fn(),
+    };
+
+    const mockModel = {
+      setNotes: jest.fn(),
+      addNote: jest.fn(),
+      getNotes: jest.fn(),
+    };
+
+    const view = new NotesView(mockModel, mockClient);
+    // Call the displayError method with the mock error
+    view.displayError(error);
+
+    // Assert that the error message is displayed in the DOM
+    const errorDiv = document.querySelector("div.error-message");
+    expect(errorDiv).not.toBeNull();
+    expect(errorDiv.textContent).toContain("Oops, something went wrong!");
+    expect(errorDiv.textContent).toContain(error);
+  });
+
   it("reset method should make a DELETE request to the reset endpoint", () => {
     // Arrange
     const client = new noteClient();
